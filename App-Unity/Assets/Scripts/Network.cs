@@ -15,7 +15,7 @@ public class Network : MonoBehaviour
 
         // This line will set up the listener function
         socket.On("connectionEstabilished", onConnectionEstabilished);
-        socket.On("foreignMessage", onForeignMessage);
+        //socket.On("foreignMessage", onForeignMessage);
     }
 
     // This is the listener function definition
