@@ -15,15 +15,21 @@ public class Network : MonoBehaviour
 
         // This line will set up the listener function
         socket.On("connectionEstabilished", onConnectionEstabilished);
+        socket.On("foreignMessage", onForeignMessage);
     }
 
     // This is the listener function definition
     void onConnectionEstabilished(SocketIOEvent evt)
     {
-        Debug.Log("Player is connected: " + evt.data.GetField("id"));
+        Debug.Log("I am connected on server with ID " + evt.data.GetField("id"));
 
-        message.AddField("message", "Hello! I am " + socket.sid);
+        message.AddField("identity", "UNITY_CLIENT");
         socket.Emit("main", message);
         message.Clear();
+    }
+
+    private void onForeignMessage(SocketIOEvent evt)
+    {
+        Debug.Log("Foreign Message: " + evt.data.GetField("message"));
     }
 }
