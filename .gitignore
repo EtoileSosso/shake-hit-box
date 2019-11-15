@@ -2,10 +2,10 @@
 
 *.sln
 *.csproj
-Library/*
-Logs/*
-obj/*
-Temp/*
+*/Library/*
+*/Logs/*
+*/obj/*
+*/Temp/*
   
 # This .gitignore file should be placed at the root of your Unity project directory
 #
