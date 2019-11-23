@@ -23,8 +23,9 @@ public class Network : MonoBehaviour
     {
         Debug.Log("I am connected on server with ID " + evt.data.GetField("id"));
 
-        message.AddField("identity", "UNITY_CLIENT");
-        socket.Emit("main", message);
+        message.AddField("id", evt.data.GetField("id"));
+        message.AddField("message", "UNITY");
+        socket.Emit("firstHello", message);
         message.Clear();
     }
 
