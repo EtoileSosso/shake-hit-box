@@ -28,6 +28,7 @@ public class MainMenu : MonoBehaviour
     {
         playersCountText = playersCount.GetComponent<Text>();
 
+        // Setup Controllers Manager
         ControllersManager.Instance.Setup();
         ControllersManager.Instance.SetupNetwork();
     }
@@ -40,7 +41,7 @@ public class MainMenu : MonoBehaviour
 
     IEnumerator DoCheck()
     {
-        for (; ; )
+        for (;;)
         {
 
             yield return new WaitForSeconds(1f);

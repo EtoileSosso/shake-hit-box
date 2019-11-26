@@ -19,7 +19,7 @@ TagManager:
   - Game-Background
   - Game-Middleground
   - Game-Foreground
-  - 
+  - Mega Front
   - 
   - 
   - 
@@ -40,4 +40,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Back
+    uniqueID: 1479686067
+    locked: 0
+  - name: Middle
+    uniqueID: 4224111589
+    locked: 0
+  - name: Front
+    uniqueID: 3448864691
     locked: 0
