@@ -47,6 +47,11 @@ public class ControllersManager
         }
     }
 
+    public void Test()
+    {
+        Debug.Log(players.Count);
+    }
+
     public void Setup()
     {
         assignedColors = colors;
@@ -97,7 +102,7 @@ public class ControllersManager
             message.Clear();
 
             // Start sending shake order
-            bool a = requireMotionDetection(MotionType.WAVE, id);
+            requireMotionDetection(MotionType.WAVE, id);
         }
     }
 
@@ -108,13 +113,26 @@ public class ControllersManager
     }
 
 
-    bool requireMotionDetection(MotionType type, JSONObject id)
+    void requireMotionDetection(MotionType type, JSONObject id)
     {
         message.AddField("id", id);
         message.AddField("type", type.ToString());
         socket.Emit("motionDetection", message);
         message.Clear();
-        return false;
+
+        Debug.Log("Sent motion detection order: " + type);
+
+        listenForMotionDetectionReturn(id);
+    }
+
+    void listenForMotionDetectionReturn(JSONObject id)
+    {
+        socket.On("motionDetectionResult", onMotionDetectionReturn);
+    }
+
+    void onMotionDetectionReturn(SocketIOEvent evt)
+    {
+        Debug.Log("Motion detection return : " + evt.data.GetField("status"));
     }
 
     public static ControllersManager Instance
