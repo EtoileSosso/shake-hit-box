@@ -29,11 +29,21 @@ public class MainMenu : MonoBehaviour
         playersCountText = playersCount.GetComponent<Text>();
 
         ControllersManager.Instance.Setup();
+        ControllersManager.Instance.SetupNetwork();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
+    }
+
+    IEnumerator DoCheck()
+    {
+        for (; ; )
+        {
+
+            yield return new WaitForSeconds(1f);
+        }
     }
 }
