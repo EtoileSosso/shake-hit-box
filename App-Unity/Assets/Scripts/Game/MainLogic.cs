@@ -18,6 +18,9 @@ public class MainLogic : MonoBehaviour
 
         // Setup sound manager
         SoundManager.Instance.Setup();
+
+        // Setup Timeline manager
+        TimelineManager.Instance.Setup();
     }
 
     // Update is called once per frame

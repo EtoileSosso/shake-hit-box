@@ -3,28 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using SocketIO;
 
+struct SpheroClient
+{
+    JSONObject id;
+    string color;
+
+    public SpheroClient(JSONObject pId, string pColor)
+    {
+        id = pId;
+        color = pColor;
+    }
+
+    public JSONObject Id { get => Id; set => id = value; }
+    public string Color { get => color; set => color = value; }
+}
+
+enum MotionType { HORIZONTAL, FRONT, WAVE, CIRCLE, IDLE }
+
 public class ControllersManager
 {
     private static ControllersManager instance;
 
     private ControllersManager() { }
-
-    enum MotionType { SHAKE, TAP, WAVE, IDLE }
-
-    struct SpheroClient
-    {
-        JSONObject id;
-        string color;
-
-        public SpheroClient(JSONObject pId, string pColor)
-        {
-            id = pId;
-            color = pColor;
-        }
-
-        public JSONObject Id { get => Id; set => id = value; }
-        public string Color { get => color; set => color = value; }
-    }
 
     SocketIOComponent socket;
     JSONObject message;
