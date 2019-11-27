@@ -23,12 +23,16 @@ struct OneMotion
     public MotionType type;
     public Track track;
     public Time time;
+    public int iterations;
+    public List<PlayerByColor> players;
 
-    public OneMotion(MotionType pType, Track pTrack, Time pTime)
+    public OneMotion(MotionType pType, Track pTrack, Time pTime, int pIterations, List<PlayerByColor> pPlayers)
     {
         type = pType;
         track = pTrack;
         time = pTime;
+        iterations = pIterations;
+        players = pPlayers;
     }
 }
 
@@ -47,7 +51,58 @@ public class TimelineManager : MonoBehaviour
 
     private void SetupMotion()
     {
-        motionsList.Add(OneMotion())
+        motionsList = GetMotionList();
+    }
+
+    private List<OneMotion> GetMotionList()
+    {
+        List<OneMotion> list = new List<OneMotion>();
+
+        // At 10 seconds
+        list.Add(
+            new OneMotion(
+                MotionType.HORIZONTAL,
+                Track.FATWA,
+                new Time(0, 10),
+                4,
+                new List<PlayerByColor>() { PlayerByColor.PURPLE, PlayerByColor.PINK, PlayerByColor.ORANGE, PlayerByColor.RED }
+            )
+        );
+
+        // At 14 seconds
+        list.Add(
+            new OneMotion(
+                MotionType.CIRCLE,
+                Track.VOICE,
+                new Time(0, 14),
+                8,
+                new List<PlayerByColor>() { PlayerByColor.PURPLE, PlayerByColor.PINK, PlayerByColor.ORANGE, PlayerByColor.RED }
+            )
+        );
+
+        // At 21 seconds
+        list.Add(
+            new OneMotion(
+                MotionType.HORIZONTAL,
+                Track.BASS, // TODO redéfinir ?
+                new Time(0, 21),
+                4,
+                new List<PlayerByColor>() { PlayerByColor.ORANGE, PlayerByColor.RED }
+            )
+        );
+
+        // At 25 seconds
+        list.Add(
+            new OneMotion(
+                MotionType.CIRCLE,
+                Track.GUITAR,
+                new Time(0, 21),
+                4,
+                new List<PlayerByColor>() { PlayerByColor.PINK }
+            )
+        );
+
+        return list;
     }
 
     public static TimelineManager Instance
