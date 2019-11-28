@@ -3,28 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using SocketIO;
 
+struct SpheroClient
+{
+    JSONObject id;
+    string color;
+
+    public SpheroClient(JSONObject pId, string pColor)
+    {
+        id = pId;
+        color = pColor;
+    }
+
+    public JSONObject Id { get => Id; set => id = value; }
+    public string Color { get => color; set => color = value; }
+}
+
+public enum MotionType { HORIZONTAL, FRONT, WAVE, CIRCLE, IDLE, NONE }
+
 public class ControllersManager
 {
     private static ControllersManager instance;
 
     private ControllersManager() { }
-
-    enum MotionType { SHAKE, TAP, WAVE, IDLE }
-
-    struct SpheroClient
-    {
-        JSONObject id;
-        string color;
-
-        public SpheroClient(JSONObject pId, string pColor)
-        {
-            id = pId;
-            color = pColor;
-        }
-
-        public JSONObject Id { get => Id; set => id = value; }
-        public string Color { get => color; set => color = value; }
-    }
 
     SocketIOComponent socket;
     JSONObject message;
@@ -112,6 +112,31 @@ public class ControllersManager
         return colors[0];
     }
 
+    public bool startListeningToMotion(MotionType type, List<PlayerByColor> players)
+    {
+        List<JSONObject> ids = new List<JSONObject>();
+        for(int i = 0; i < players.Count; i++)
+        {
+            ids.Add(getIdOfPlayerByColor(players[i]));
+        }
+
+        Debug.Log(ids);
+
+        return true;
+    }
+
+    private JSONObject getIdOfPlayerByColor(PlayerByColor player)
+    {
+        foreach(SpheroClient current in players)
+        {
+            if(current.Color == player.ToString().ToLower())
+            {
+                return current.Id;
+            }
+        }
+
+        return null;
+    }
 
     void requireMotionDetection(MotionType type, JSONObject id)
     {
