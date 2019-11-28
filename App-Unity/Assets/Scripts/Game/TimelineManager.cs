@@ -4,12 +4,12 @@ using UnityEngine;
 
 enum Track { BASS, GUITAR, FATWA, VOICE, ALL }
 
-struct Time
+struct LocalTime
 {
     public int minutes;
     public int seconds;
 
-    public Time(int pMinutes, int pSeconds)
+    public LocalTime(int pMinutes, int pSeconds)
     {
         minutes = pMinutes;
         seconds = pSeconds;
@@ -22,11 +22,11 @@ struct OneMotion
 {
     public MotionType type;
     public Track track;
-    public Time time;
+    public LocalTime time;
     public int iterations;
     public List<PlayerByColor> players;
 
-    public OneMotion(MotionType pType, Track pTrack, Time pTime, int pIterations, List<PlayerByColor> pPlayers)
+    public OneMotion(MotionType pType, Track pTrack, LocalTime pTime, int pIterations, List<PlayerByColor> pPlayers)
     {
         type = pType;
         track = pTrack;
@@ -63,7 +63,7 @@ public class TimelineManager : MonoBehaviour
             new OneMotion(
                 MotionType.HORIZONTAL,
                 Track.FATWA,
-                new Time(0, 10),
+                new LocalTime(0, 10),
                 4,
                 new List<PlayerByColor>() { PlayerByColor.PURPLE, PlayerByColor.PINK, PlayerByColor.ORANGE, PlayerByColor.RED }
             )
@@ -74,7 +74,7 @@ public class TimelineManager : MonoBehaviour
             new OneMotion(
                 MotionType.CIRCLE,
                 Track.VOICE,
-                new Time(0, 14),
+                new LocalTime(0, 14),
                 8,
                 new List<PlayerByColor>() { PlayerByColor.PURPLE, PlayerByColor.PINK, PlayerByColor.ORANGE, PlayerByColor.RED }
             )
@@ -85,7 +85,7 @@ public class TimelineManager : MonoBehaviour
             new OneMotion(
                 MotionType.HORIZONTAL,
                 Track.BASS, // TODO redéfinir ?
-                new Time(0, 21),
+                new LocalTime(0, 21),
                 4,
                 new List<PlayerByColor>() { PlayerByColor.ORANGE, PlayerByColor.RED }
             )
@@ -96,7 +96,7 @@ public class TimelineManager : MonoBehaviour
             new OneMotion(
                 MotionType.CIRCLE,
                 Track.GUITAR,
-                new Time(0, 21),
+                new LocalTime(0, 21),
                 4,
                 new List<PlayerByColor>() { PlayerByColor.PINK }
             )

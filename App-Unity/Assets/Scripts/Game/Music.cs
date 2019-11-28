@@ -3,44 +3,110 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+
 public class Music : MonoBehaviour
 {
-    public AudioClip drums;
-    public AudioClip bass;
-    public AudioClip guitars;
-    public AudioClip keyboards;
-    public AudioClip fatwa;
-    public AudioClip voice;
+    private static Music instance;
 
+    private Music() { }
 
-    public Text currentSeconds;
-    public Text currentMinutes;
+    public enum Track { BASS, GUITAR, FATWA, VOICE, ALL }
 
-    // Start is called before the first frame update
-    void Start()
+    AudioSource drums;
+    AudioSource bass;
+    AudioSource guitars;
+    AudioSource keyboard1;
+    AudioSource keyboard2;
+    AudioSource fatwa;
+    AudioSource voice;
+
+    public void Setup()
     {
-        SoundManager.Instance.PlayMusic(drums);
 
-        currentSeconds.text = "00";
-        currentMinutes.text = "00";
     }
 
-    // Update is called once per frame
-    void Update()
+    public void StartMusic()
     {
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //    SoundManager.Instance.ChangePitch(musics[0]);
+        //SoundManager.Instance.PlayMusic(drums);
+        drums = GameObject.Find("Drums").GetComponent<AudioSource>();
+        drums.Play();
 
-        //if (Input.GetKeyDown(KeyCode.UpArrow))
-        //    SoundManager.Instance.UpVolume(musics[0]);
+        bass = GameObject.Find("Bass").GetComponent<AudioSource>();
+        bass.Play();
 
-        //if (Input.GetKeyDown(KeyCode.DownArrow))
-        //    SoundManager.Instance.DownVolume(musics[0]);
+        guitars = GameObject.Find("Guitars").GetComponent<AudioSource>();
+        guitars.Play();
 
-        //float timer = SoundManager.Instance.GetCurrentTime();
-        //string minutes = Mathf.Floor((int)timer / 60).ToString("00");
-        //string seconds = ((int)timer % 60).ToString("00");
-        //currentSeconds.text = seconds;
-        //currentMinutes.text = minutes;
+        keyboard1 = GameObject.Find("Keyboard1").GetComponent<AudioSource>();
+        keyboard1.Play();
+
+        keyboard2 = GameObject.Find("Keyboard2").GetComponent<AudioSource>();
+        keyboard2.Play();
+
+        fatwa = GameObject.Find("Extras").GetComponent<AudioSource>();
+        fatwa.Play();
+
+        voice = GameObject.Find("Vocals").GetComponent<AudioSource>();
+        voice.Play();
+    }
+
+    public void ChangeTrackSound(Track track, float percent)
+    {
+        switch(track)
+        {
+            case Track.BASS:
+                bass.volume *= percent;
+                break;
+            case Track.GUITAR:
+                guitars.volume *= percent;
+                break;
+            case Track.FATWA:
+                fatwa.volume *= percent;
+                break;
+            case Track.VOICE:
+                voice.volume *= percent;
+                break;
+            case Track.ALL:
+                break;
+        }
+    }
+
+    public void ResetTrackSound(Track track)
+    {
+        switch (track)
+        {
+            case Track.BASS:
+                bass.volume = 1f;
+                break;
+            case Track.GUITAR:
+                guitars.volume = 1f;
+                break;
+            case Track.FATWA:
+                fatwa.volume = 1f;
+                break;
+            case Track.VOICE:
+                voice.volume = 1f;
+                break;
+            case Track.ALL:
+                break;
+        }
+    }
+
+    public float GetElapsedTime()
+    {
+        return drums.time;
+    }
+
+    public static Music Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = new Music();
+            }
+            return instance;
+        }
     }
 }
