@@ -2,31 +2,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-enum Track { BASS, GUITAR, FATWA, VOICE, ALL }
+public enum Track { BASS, GUITAR, FATWA, VOICE, ALL, NONE }
 
-struct LocalTime
+public struct LocalTime
 {
     public int minutes;
     public int seconds;
 
-    public LocalTime(int pMinutes, int pSeconds)
+    public LocalTime(int pMinutes = 0, int pSeconds = 0)
     {
         minutes = pMinutes;
         seconds = pSeconds;
     }
 }
 
-enum PlayerByColor {PURPLE, PINK, ORANGE, RED}
+public enum PlayerByColor {PURPLE, PINK, ORANGE, RED}
 
-struct OneMotion
+public struct OneMotion
 {
     public MotionType type;
     public Track track;
-    public LocalTime time;
+    //public LocalTime time;
+    public int time;
     public int iterations;
     public List<PlayerByColor> players;
 
-    public OneMotion(MotionType pType, Track pTrack, LocalTime pTime, int pIterations, List<PlayerByColor> pPlayers)
+    public OneMotion(MotionType pType = MotionType.NONE, Track pTrack = Track.NONE, int pTime = 0, int pIterations = 0, List<PlayerByColor> pPlayers = null)
     {
         type = pType;
         track = pTrack;
@@ -51,58 +52,69 @@ public class TimelineManager : MonoBehaviour
 
     private void SetupMotion()
     {
-        motionsList = GetMotionList();
+        GetMotionList();
     }
 
-    private List<OneMotion> GetMotionList()
+    public OneMotion CheckForCurrentMotion(int seconds)
     {
-        List<OneMotion> list = new List<OneMotion>();
+        //Debug.Log(motionsList.Count);
+        foreach(OneMotion current in motionsList)
+        {
+            if(current.time == seconds)
+            {
+                return current;
+            }
+        }
+        return new OneMotion(MotionType.NONE, Track.NONE);
+    }
 
+    private void GetMotionList()
+    {
         // At 10 seconds
-        list.Add(
+        motionsList.Add(
             new OneMotion(
                 MotionType.HORIZONTAL,
                 Track.FATWA,
-                new LocalTime(0, 10),
+                1, // TODO set to 10
                 4,
                 new List<PlayerByColor>() { PlayerByColor.PURPLE, PlayerByColor.PINK, PlayerByColor.ORANGE, PlayerByColor.RED }
             )
         );
 
         // At 14 seconds
-        list.Add(
+        motionsList.Add(
             new OneMotion(
                 MotionType.CIRCLE,
                 Track.VOICE,
-                new LocalTime(0, 14),
+                14,
                 8,
                 new List<PlayerByColor>() { PlayerByColor.PURPLE, PlayerByColor.PINK, PlayerByColor.ORANGE, PlayerByColor.RED }
             )
         );
 
+
+
         // At 21 seconds
-        list.Add(
+        motionsList.Add(
             new OneMotion(
                 MotionType.HORIZONTAL,
                 Track.BASS, // TODO redéfinir ?
-                new LocalTime(0, 21),
+                21,
                 4,
                 new List<PlayerByColor>() { PlayerByColor.ORANGE, PlayerByColor.RED }
             )
         );
 
         // At 25 seconds
-        list.Add(
+        motionsList.Add(
             new OneMotion(
                 MotionType.CIRCLE,
                 Track.GUITAR,
-                new LocalTime(0, 21),
+                25,
                 4,
                 new List<PlayerByColor>() { PlayerByColor.PINK }
             )
         );
-
-        return list;
     }
 
     public static TimelineManager Instance

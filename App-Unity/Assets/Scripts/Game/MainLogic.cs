@@ -9,6 +9,7 @@ public class MainLogic : MonoBehaviour
     Text scoreText;
     bool doChrono = false;
     float elapsedTime = 0f;
+    int previousElapsedTimeSeconds = 0;
     int elapsedTimeSeconds = 0;
 
     // Start is called before the first frame update
@@ -17,7 +18,7 @@ public class MainLogic : MonoBehaviour
         scoreText = scoreIndication.GetComponent<Text>();
         scoreText.text = "0 pt";
 
-        ControllersManager.Instance.Test();
+        ControllersManager.Instance.Setup();
 
         // Setup sound manager
         Music.Instance.Setup();
@@ -34,6 +35,18 @@ public class MainLogic : MonoBehaviour
         Music.Instance.StartMusic();
     }
 
+    void CheckForMotion()
+    {
+        // TODO gérer plusieurs à la même seconde
+        OneMotion motion = TimelineManager.Instance.CheckForCurrentMotion(elapsedTimeSeconds);
+        //Debug.Log(motion.players);
+        if(motion.type != MotionType.NONE)
+        {
+            Debug.Log(motion.players);
+            // bool res = ControllersManager.Instance.startListeningToMotion(motion.type, motion.players);
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -41,6 +54,13 @@ public class MainLogic : MonoBehaviour
         {
             elapsedTime += Time.deltaTime;
             elapsedTimeSeconds = (int)(elapsedTime % 60);
+
+            if(elapsedTimeSeconds > previousElapsedTimeSeconds)
+            {
+                //Debug.Log(elapsedTimeSeconds);
+                CheckForMotion();
+            }
+            previousElapsedTimeSeconds = elapsedTimeSeconds;
         }
     }
 }

@@ -18,7 +18,7 @@ struct SpheroClient
     public string Color { get => color; set => color = value; }
 }
 
-enum MotionType { HORIZONTAL, FRONT, WAVE, CIRCLE, IDLE }
+public enum MotionType { HORIZONTAL, FRONT, WAVE, CIRCLE, IDLE, NONE }
 
 public class ControllersManager
 {
@@ -112,6 +112,31 @@ public class ControllersManager
         return colors[0];
     }
 
+    public bool startListeningToMotion(MotionType type, List<PlayerByColor> players)
+    {
+        List<JSONObject> ids = new List<JSONObject>();
+        for(int i = 0; i < players.Count; i++)
+        {
+            ids.Add(getIdOfPlayerByColor(players[i]));
+        }
+
+        Debug.Log(ids);
+
+        return true;
+    }
+
+    private JSONObject getIdOfPlayerByColor(PlayerByColor player)
+    {
+        foreach(SpheroClient current in players)
+        {
+            if(current.Color == player.ToString().ToLower())
+            {
+                return current.Id;
+            }
+        }
+
+        return null;
+    }
 
     void requireMotionDetection(MotionType type, JSONObject id)
     {
